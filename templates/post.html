@@ -2,6 +2,19 @@
 
 {% block content %}
     <h2>{% block title %} {{ post['title'] }} {% endblock %}</h2>
-    <span class="badge badge-primary">{{ post['created'] }}</span>
     <p>{{ post['content'] }}</p>
+    <a>
+    <h2>Comments:</h2>
+        </a>
+    {% for comment in comments %}
+
+        <a>
+            <p>{{ comment['username'] }}</p>
+            <p>{{ comment['comment'] }}</p>
+        </a>
+        <span class="badge badge-primary">{{ comment['created'] }}</span>
+        <hr>
+    {% endfor %}
+
 {% endblock %}
+

@@ -7,6 +7,13 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+
+def get_db_comments_connection():
+    conn = sqlite3.connect('comments.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
 def get_post(post_id):
     conn = get_db_connection()
     post = conn.execute('SELECT * FROM posts WHERE id = ?',
@@ -17,7 +24,13 @@ def get_post(post_id):
     return post
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your secret key'
+app.config['SECRET_KEY'] = '12345'
+
+
+@app.errorhandler(404)
+def pageNotFound(error):
+    return render_template('page404.html')
+
 
 @app.route('/')
 def index():
@@ -26,10 +39,21 @@ def index():
     conn.close()
     return render_template('index.html', posts=posts)
 
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 @app.route('/<int:post_id>')
 def post(post_id):
+    n = post_id
     post = get_post(post_id)
-    return render_template('post.html', post=post)
+    conn = get_db_comments_connection()
+    comments = conn.execute('SELECT * FROM comments '
+                            'WHERE post_id = ?',
+                            (n,)).fetchall()
+    conn.close()
+    return render_template('post.html', post=post, comments=comments)
 
 @app.route('/create', methods=('GET', 'POST'))
 def create():
@@ -79,3 +103,24 @@ def delete(id):
     conn.close()
     flash('"{}" was successfully deleted!'.format(post['title']))
     return redirect(url_for('index'))
+
+
+@app.route('/<int:id>/comment', methods=('GET', 'POST'))
+def comment(id):
+    post = get_post(id)
+
+    if request.method == 'POST':
+        username = request.form['username']
+        comment = request.form['comment']
+
+        if not username:
+            flash('Name is required!')
+        else:
+            conn = get_db_comments_connection()
+            conn.execute('INSERT INTO comments (post_id, username, comment) VALUES (?, ?, ?)',
+                         (id, username, comment))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('index'))
+
+    return render_template('comment.html', post=post)

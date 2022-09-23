@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:sqlite:D:\Учеба\TMS\Homework\flask_blog\database.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="comments" uuid="96b47adf-50b8-45fc-a4f1-ec850dbaf4be">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:D:\Учеба\TMS\Homework\flask_blog\comments.db</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

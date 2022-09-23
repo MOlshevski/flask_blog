@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS comments;
+
+CREATE TABLE comments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    post_id iNTEGER,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    username TEXT,
+    comment TEXT
+);

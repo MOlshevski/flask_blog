@@ -10,6 +10,9 @@
         <a href="{{ url_for('edit', id=post['id']) }}">
             <span class="badge badge-warning">Edit</span>
         </a>
+        <a href="{{ url_for('comment', id=post['id']) }}">
+            <span class="badge badge-warning">Comment</span>
+        </a>
         <hr>
     {% endfor %}
 {% endblock %}
