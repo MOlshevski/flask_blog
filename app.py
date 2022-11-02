@@ -24,7 +24,7 @@ def get_post(post_id):
     return post
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '12345'
+app.config['SECRET_KEY'] = '*********'
 
 
 @app.errorhandler(404)
